@@ -16,21 +16,29 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-webflux:2.5.6")
+
+    val springBootVersion = "2.5.6"
+
+    implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.1.5")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.5.2-native-mt")
-    developmentOnly("org.springframework.boot:spring-boot-devtools:2.5.5")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.6")
+    implementation("org.hibernate:hibernate-core:5.6.1.Final")
+    implementation("org.postgresql:postgresql:42.3.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
+    developmentOnly("org.springframework.boot:spring-boot-devtools:$springBootVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("io.projectreactor:reactor-test:3.4.11")
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "15"
     }
 }
 
