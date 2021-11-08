@@ -27,5 +27,5 @@ docker container ls
 ### Endpoints
 
 ```
-curl http://localhost:8080/stocks
+curl localhost:8080/stocks
 ```

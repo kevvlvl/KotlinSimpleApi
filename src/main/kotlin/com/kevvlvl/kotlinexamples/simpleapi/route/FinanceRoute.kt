@@ -7,8 +7,11 @@ import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.server.RequestPredicates.GET
 import org.springframework.web.reactive.function.server.RequestPredicates.accept
 import org.springframework.web.reactive.function.server.RouterFunction
-import org.springframework.web.reactive.function.server.RouterFunctions
 import org.springframework.web.reactive.function.server.ServerResponse
+
+import org.springframework.web.reactive.function.server.RouterFunctions.route
+import org.springframework.web.reactive.function.server.ServerResponse.ok
+import org.springframework.web.reactive.function.server.body
 
 @Configuration(proxyBeanMethods = false)
 class FinanceRoute {
@@ -16,9 +19,8 @@ class FinanceRoute {
     @Bean
     fun route(financeHandler: FinanceHandler): RouterFunction<ServerResponse> {
 
-        return RouterFunctions
-            .route(
-                GET("/stock").and(accept(MediaType.APPLICATION_JSON)),
-                financeHandler::stock)
+        return route(GET("/stocks").and(accept(MediaType.APPLICATION_JSON))) {
+            ok().body(financeHandler.stock(it))
+        }
     }
 }
