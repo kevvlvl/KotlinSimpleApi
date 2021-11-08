@@ -11,7 +11,6 @@ import reactor.core.publisher.Flux
 class FinanceHandler @Autowired constructor(private val financeService: FinanceService) {
 
     fun stock(request: ServerRequest): Flux<Company> {
-
         return financeService.getAllPublicCompanies()
     }
 }

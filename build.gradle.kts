@@ -33,6 +33,7 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools:$springBootVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("io.projectreactor:reactor-test:3.4.11")
+    testImplementation("org.mockito:mockito-core:4.0.0")
 }
 
 tasks.withType<KotlinCompile> {
