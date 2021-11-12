@@ -4,10 +4,11 @@ import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
 @Entity
+@Table(name = "company")
 class Company {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0
 
     @Column(nullable = false, length = 6)
@@ -23,7 +24,6 @@ class Company {
 
         other as Company
 
-        if (id != other.id) return false
         if (symbol != other.symbol) return false
         if (name != other.name) return false
 
@@ -31,8 +31,7 @@ class Company {
     }
 
     override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + symbol.hashCode()
+        var result = symbol.hashCode()
         result = 31 * result + name.hashCode()
         return result
     }

@@ -1,47 +1,69 @@
 package com.kevvlvl.kotlinexamples.simpleapi.route
-import com.kevvlvl.kotlinexamples.simpleapi.handler.FinanceHandler
 import com.kevvlvl.kotlinexamples.simpleapi.model.Company
 import com.kevvlvl.kotlinexamples.simpleapi.repository.CompanyRepository
-import com.kevvlvl.kotlinexamples.simpleapi.service.FinanceService
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
-import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.context.annotation.Import
-import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.web.reactive.server.WebTestClient
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
 
-@ExtendWith(SpringExtension::class)
-@WebFluxTest
-@Import(FinanceHandler::class, FinanceService::class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Testcontainers
 class FinanceRouteTest {
 
+    companion object {
+
+        @Container
+        val container = PostgreSQLContainer<Nothing>("postgres:14-alpine3.14")
+            .apply {
+                withDatabaseName("testdb")
+                withUsername("testUser")
+                withPassword("testPass123")
+                withInitScript("postgres-init.sql")
+                start()
+            }
+
+        @JvmStatic
+        @DynamicPropertySource
+        fun postgresProperties(registry: DynamicPropertyRegistry) {
+
+            registry.add("spring.datasource.url", container::getJdbcUrl)
+            registry.add("spring.datasource.username", container::getUsername)
+            registry.add("spring.datasource.password", container::getPassword)
+        }
+    }
+
     @Autowired
-    private lateinit var handler: FinanceHandler
+    private lateinit var repository: CompanyRepository
 
-    @MockBean
-    private lateinit var companyRepository: CompanyRepository
-
+    @Autowired
     private lateinit var webTestClient: WebTestClient
 
     @BeforeEach
     fun init() {
-        println("init test")
 
-        val router = FinanceRoute().route(handler)
-        webTestClient = WebTestClient
-            .bindToRouterFunction(router)
-            .build()
+        println("init test")
+        this.repository.saveAll(getStubCompanies())
+    }
+
+    @AfterEach
+    fun cleanup() {
+
+        println("cleanup test")
+        this.repository.deleteAll()
     }
 
     @Test
     fun getCompaniesCorrectlyAndReturnList() {
 
         val stubCompanies = getStubCompanies()
-
-        Mockito.`when`(companyRepository.findAllByOrderByNameAsc()).thenReturn(stubCompanies)
 
         webTestClient.get()
             .uri("/stocks")
@@ -58,12 +80,10 @@ class FinanceRouteTest {
     private fun getStubCompanies() : List<Company> {
 
         val companyAbc = Company()
-        companyAbc.id = 1
         companyAbc.symbol = "ABC"
         companyAbc.name = "A Boring Company"
 
         val companyToto = Company()
-        companyToto.id = 3
         companyToto.symbol = "TOTO"
         companyToto.name = "Great Sounding Vibes"
 

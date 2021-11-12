@@ -18,6 +18,7 @@ repositories {
 dependencies {
 
     val springBootVersion = "2.5.6"
+    val testcontainersVersion = "1.16.2"
 
     implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
@@ -29,11 +30,13 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.5.2-native-mt")
     implementation("org.hibernate:hibernate-core:5.6.1.Final")
     implementation("org.postgresql:postgresql:42.3.1")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
     developmentOnly("org.springframework.boot:spring-boot-devtools:$springBootVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    testImplementation("io.projectreactor:reactor-test:3.4.11")
+    testImplementation("io.projectreactor:reactor-test:3.4.12")
     testImplementation("org.mockito:mockito-core:4.0.0")
+    testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
+    testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
+    testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
 }
 
 tasks.withType<KotlinCompile> {

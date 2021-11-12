@@ -22,10 +22,20 @@ docker container ls
 
 ### Locally via gradle
 
-```./gradlew bootRun```
+```
+./gradlew bootRun
+```
 
 ### Endpoints
 
 ```
 curl localhost:8080/stocks
+```
+
+### Run tests
+
+Make sure you have docker up and running as the tests use containers to spin up a real postgresql instance.
+
+```
+./gradlew test
 ```
