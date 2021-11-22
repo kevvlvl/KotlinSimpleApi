@@ -1,23 +1,26 @@
-package com.kevvlvl.kotlinexamples.simpleapi.route
+package com.kevvlvl.kotlinexamples.simpleapi.handler
+
 import com.kevvlvl.kotlinexamples.simpleapi.TestData
 import com.kevvlvl.kotlinexamples.simpleapi.model.Company
 import com.kevvlvl.kotlinexamples.simpleapi.repository.CompanyRepository
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.Mock
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.web.reactive.function.server.ServerRequest
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import reactor.core.publisher.Flux
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
-class FinanceRouteTest {
+class FinanceHandlerTest {
 
     companion object {
 
@@ -42,10 +45,13 @@ class FinanceRouteTest {
     }
 
     @Autowired
-    private lateinit var repository: CompanyRepository
+    private lateinit var financeHandler: FinanceHandler
 
     @Autowired
-    private lateinit var webTestClient: WebTestClient
+    private lateinit var repository: CompanyRepository
+
+    @Mock
+    private lateinit var request: ServerRequest
 
     @BeforeEach
     fun init() {
@@ -62,20 +68,16 @@ class FinanceRouteTest {
     }
 
     @Test
-    fun getCompaniesCorrectlyAndReturnList() {
+    fun getStocksCorrectlyAndList() {
 
         val stubCompanies = TestData.getStubCompanies()
+        val returnedCompaniesFlux: Flux<Company> = this.financeHandler.stock(request)
 
-        webTestClient.get()
-            .uri("/stocks")
-            .exchange()
-            .expectStatus().isOk
-            .expectBodyList(Company::class.java).value<WebTestClient.ListBodySpec<Company>>{
-                for(currentCompany in it) {
-                    Assertions.assertTrue(stubCompanies.contains(currentCompany))
-                }
-            }
+        assertThat(returnedCompaniesFlux).isNotNull
 
+        val returnedCompanies = arrayListOf<Company>()
+        returnedCompaniesFlux.collectList().subscribe(returnedCompanies::addAll)
+
+        assertThat(returnedCompanies).isEqualTo(stubCompanies)
     }
-
 }
