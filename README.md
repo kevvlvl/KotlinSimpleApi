@@ -4,9 +4,10 @@
 
 - Kotlin
 - Latest Spring Boot 2.x
+- PostgreSQL
 - Spring Reactive
 - Gradle package manager
-- Cucumber tests <-- TODO
+- Cucumber tests + JUnit 5 Runner
 
 ## Running the app
 

@@ -20,6 +20,7 @@ dependencies {
     val springBootVersion = "2.5.6"
     val testcontainersVersion = "1.16.2"
     val assertjVersion = "3.21.0"
+    val cucumberVersion = "7.0.0"
 
     implementation("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
@@ -39,6 +40,9 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:$testcontainersVersion")
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
     testImplementation("org.assertj:assertj-core:$assertjVersion")
+    testImplementation("io.cucumber:cucumber-spring:$cucumberVersion")
+    testImplementation("io.cucumber:cucumber-java:$cucumberVersion")
+    testImplementation("io.cucumber:cucumber-junit-platform-engine:$cucumberVersion")
 
 }
 
