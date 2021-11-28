@@ -1,6 +1,6 @@
-package com.kevvlvl.kotlinexamples.simpleapi
+package com.kevvlvl.simpleapi
 
-import com.kevvlvl.kotlinexamples.simpleapi.model.Company
+import com.kevvlvl.simpleapi.model.Company
 
 class TestData {
 

@@ -1,4 +1,4 @@
-package com.kevvlvl.kotlinexamples.simpleapi
+package com.kevvlvl.simpleapi
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

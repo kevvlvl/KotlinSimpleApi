@@ -1,7 +1,7 @@
-package com.kevvlvl.kotlinexamples.simpleapi.handler
+package com.kevvlvl.simpleapi.handler
 
-import com.kevvlvl.kotlinexamples.simpleapi.model.Company
-import com.kevvlvl.kotlinexamples.simpleapi.service.FinanceService
+import com.kevvlvl.simpleapi.model.Company
+import com.kevvlvl.simpleapi.service.FinanceService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest

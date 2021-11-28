@@ -1,7 +1,7 @@
-package com.kevvlvl.kotlinexamples.simpleapi.service
+package com.kevvlvl.simpleapi.service
 
-import com.kevvlvl.kotlinexamples.simpleapi.model.Company
-import com.kevvlvl.kotlinexamples.simpleapi.repository.CompanyRepository
+import com.kevvlvl.simpleapi.model.Company
+import com.kevvlvl.simpleapi.repository.CompanyRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux

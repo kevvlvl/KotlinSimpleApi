@@ -1,19 +1,15 @@
-package com.kevvlvl.kotlinexamples.simpleapi.handler
+package com.kevvlvl.simpleapi.handler
 
-import com.kevvlvl.kotlinexamples.simpleapi.TestData
-import com.kevvlvl.kotlinexamples.simpleapi.model.Company
-import com.kevvlvl.kotlinexamples.simpleapi.repository.CompanyRepository
-import io.cucumber.java.After
-import io.cucumber.java.Before
-import io.cucumber.java.en.Given
-import io.cucumber.java.en.Then
-import io.cucumber.java.en.When
-import io.cucumber.spring.CucumberContextConfiguration
-import org.assertj.core.api.Assertions
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
+import com.kevvlvl.simpleapi.TestData
+import com.kevvlvl.simpleapi.model.Company
+import com.kevvlvl.simpleapi.repository.CompanyRepository
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -23,13 +19,10 @@ import org.testcontainers.junit.jupiter.Testcontainers
 import reactor.core.publisher.Flux
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@CucumberContextConfiguration
 @Testcontainers
-class FinanceHandlerBddTest {
+class FinanceHandlerTest {
 
     companion object {
-
-        lateinit var returnedCompaniesFlux: Flux<Company>
 
         @Container
         val container = PostgreSQLContainer<Nothing>("postgres:14-alpine3.14")
@@ -57,46 +50,34 @@ class FinanceHandlerBddTest {
     @Autowired
     private lateinit var repository: CompanyRepository
 
-    @Mock
+    @MockBean
     private lateinit var request: ServerRequest
 
-    @Before
+    @BeforeEach
     fun init() {
 
         println("init test")
-
-        MockitoAnnotations.openMocks(this)
-
-        this.repository.deleteAll()
+        this.repository.saveAll(TestData.getStubCompanies())
     }
 
-    @After
+    @AfterEach
     fun cleanup() {
 
         println("cleanup test")
         this.repository.deleteAll()
     }
 
-    @Given("the valid stocks collection available for query")
-    fun setupScenarioValidStocksData() {
+    @Test
+    fun getStocksCorrectlyAndList() {
 
-        println("GIVEN - init test")
-        this.repository.saveAll(TestData.getStubCompanies())
-    }
+        val stubCompanies = TestData.getStubCompanies()
+        val returnedCompaniesFlux: Flux<Company> = this.financeHandler.stock(request)
 
-    @When("calling the get stocks handler")
-    fun callStocksHandler() {
+        assertThat(returnedCompaniesFlux).isNotNull
 
-        returnedCompaniesFlux = this.financeHandler.stock(request)
-    }
-
-    @Then("list of stocks are returned as a list")
-    fun verifyStocksCallDataAsList() {
-
-        Assertions.assertThat(returnedCompaniesFlux).isNotNull
         val returnedCompanies = arrayListOf<Company>()
         returnedCompaniesFlux.collectList().subscribe(returnedCompanies::addAll)
 
-        Assertions.assertThat(returnedCompanies).isEqualTo(TestData.getStubCompanies())
+        assertThat(returnedCompanies).isEqualTo(stubCompanies)
     }
 }

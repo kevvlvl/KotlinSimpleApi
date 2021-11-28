@@ -1,7 +1,7 @@
-package com.kevvlvl.kotlinexamples.simpleapi.route
-import com.kevvlvl.kotlinexamples.simpleapi.TestData
-import com.kevvlvl.kotlinexamples.simpleapi.model.Company
-import com.kevvlvl.kotlinexamples.simpleapi.repository.CompanyRepository
+package com.kevvlvl.simpleapi.route
+import com.kevvlvl.simpleapi.TestData
+import com.kevvlvl.simpleapi.model.Company
+import com.kevvlvl.simpleapi.repository.CompanyRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach

@@ -1,6 +1,6 @@
-package com.kevvlvl.kotlinexamples.simpleapi.repository
+package com.kevvlvl.simpleapi.repository
 
-import com.kevvlvl.kotlinexamples.simpleapi.model.Company
+import com.kevvlvl.simpleapi.model.Company
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

@@ -1,4 +1,4 @@
-package com.kevvlvl.kotlinexamples.simpleapi.model
+package com.kevvlvl.simpleapi.model
 
 import javax.persistence.*
 import javax.validation.constraints.NotBlank

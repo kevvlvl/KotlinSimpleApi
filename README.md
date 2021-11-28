@@ -1,13 +1,18 @@
-# Simple Kotlin REST API example
+# A simple Kotlin REST API example
 
-## Technologies used
+What started as a simple REST Api writen in Kotlin using the Spring reactive framework is an evolving self-learning project where I'm including librairies/notions to meet various needs (tests, reliability, rdbms, etc.)
+
+Please feel free (just like the rest of my projects) to contribute/comment, fork etc.
+
+## Tech stack
 
 - Kotlin
 - Latest Spring Boot 2.x
-- PostgreSQL
+- PostgreSQL running on a docker container
 - Spring Reactive
 - Gradle package manager
-- Cucumber tests + JUnit 5 Runner
+- JUnit5 integration tests using testcontainers
+- Cucumber/BDD style tests using the JUnit 5 runner
 
 ## Running the app
 

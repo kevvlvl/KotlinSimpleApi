@@ -1,6 +1,6 @@
-package com.kevvlvl.kotlinexamples.simpleapi.route
+package com.kevvlvl.simpleapi.route
 
-import com.kevvlvl.kotlinexamples.simpleapi.handler.FinanceHandler
+import com.kevvlvl.simpleapi.handler.FinanceHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.server.RequestPredicates.GET
